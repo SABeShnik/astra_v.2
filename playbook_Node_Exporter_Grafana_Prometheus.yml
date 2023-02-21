@@ -56,27 +56,24 @@
 #      with_nested:
 #        - ['mon']
 #        - ['mon/provision/dashboards']
-#        - ['mon/provision/datasources']
-#        - ['mon/provision/json']
-#        - ['prom']
 
-    - name: Copy multiple files
+    - name: Create multiple dirs
       file: path={{ item.path }} state={{ item.state }} owner={{ item.owner }} group={{ item.group }} mode={{ item.mode }}
       loop:
-        - { "path": "/opt/mon",  "state":  'directory', "owner":  'vagrant', "group": 'vagrant', "mode":   '0775', }
-        - { "path": "/opt/mon/provision/dashboards", "state":  'directory',  "owner":  'vagrant', "group": 'vagrant', "mode":   '0775', }
-        - { "path": "/opt/mon/provision/datasources", "state":  'directory', "owner":  'vagrant', "group": 'vagrant', "mode":   '0775', }
-        - { "path": "/opt/mon/provision/json", "state":  'directory', "owner":  'vagrant', "group": 'vagrant', "mode":   '0775', }
-        - { "path": "/opt/prom", "state":  'directory', "owner":  'vagrant', "group": 'vagrant', "mode":   '0775', }
+        - { "path": "/opt/mon",                       "state": 'directory', "owner": 'vagrant', "group": 'vagrant', "mode": '0775', }
+        - { "path": "/opt/mon/provision/dashboards",  "state": 'directory', "owner": 'vagrant', "group": 'vagrant', "mode": '0775', }
+        - { "path": "/opt/mon/provision/datasources", "state": 'directory', "owner": 'vagrant', "group": 'vagrant', "mode": '0775', }
+        - { "path": "/opt/mon/provision/json",        "state": 'directory', "owner": 'vagrant', "group": 'vagrant', "mode": '0775', }
+        - { "path": "/opt/prom",                      "state": 'directory', "owner": 'vagrant', "group": 'vagrant', "mode": '0775', }
 
     - name: Copy multiple files
       copy: src={{ item.src }} dest={{ item.dest }} remote_src=yes
       with_items:
-        - { src: '/vagrant/prometheus-conf.yml', dest: '/opt/prom/prometheus.yml' }
-        - { src: '/vagrant/docker-compose.yml', dest: '/opt/mon/docker-compose.yml' }
-        - { src: '/vagrant/GF-dashboards.yml', dest: '/opt/mon/provision/dashboards/GF-dashboards.yml' }
+        - { src: '/vagrant/prometheus-conf.yml',         dest: '/opt/prom/prometheus.yml' }
+        - { src: '/vagrant/docker-compose.yml',          dest: '/opt/mon/docker-compose.yml' }
+        - { src: '/vagrant/GF-dashboards.yml',           dest: '/opt/mon/provision/dashboards/GF-dashboards.yml' }
         - { src: '/vagrant/GF-datasources-prom9090.yml', dest: '/opt/mon/provision/datasources/GF-datasources-prom9090.yml' }
-        - { src: '/vagrant/GF-dashboard-1860.json', dest: '/opt/mon/provision/json/GF-dashboard-1860.json' }
+        - { src: '/vagrant/GF-dashboard-1860.json',      dest: '/opt/mon/provision/json/GF-dashboard-1860.json' }
 
     - name: Install docker-compose
       apt:
